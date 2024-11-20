@@ -12,9 +12,9 @@
 
 #include "get_next_line.h"
 
-size_t	ft_strlen(const char *s)
+size_t ft_strlen(const char *s)
 {
-	size_t	len;
+	int len;
 
 	len = 0;
 	while (s[len])
@@ -22,65 +22,85 @@ size_t	ft_strlen(const char *s)
 	return (len);
 }
 
-size_t	ft_strlcpy(char *dst, const char *src, size_t size)
-{
-	size_t	i;
-	size_t	src_len;
-
-	i = 0;
-	src_len = ft_strlen(src);
-	if (size > 0)
-	{
-		while (src[i] && i < size - 1)
-		{
-			dst[i] = src[i];
-			i++;
-		}
-		dst[i] = '\0';
-	}
-	return (src_len);
-}
-
 char	*ft_strdup(const char *src)
 {
 	int		src_size;
 	char	*str_cpy;
+	int		index;
 
 	src_size = ft_strlen(src);
 	str_cpy = (char *)malloc(src_size + 1);
-	if (str_cpy != NULL)
+	index = 0;
+	while (src[index])
 	{
-		ft_strlcpy(str_cpy, src, src_size + 1);
+		str_cpy[index] = src[index];
+		index++;
 	}
+	str_cpy[index] = '\0';
 	return (str_cpy);
 }
 
-
-char	*ft_strjoin(char const *s1, char const *s2, int *eol)
+char	*ft_strchr(const char *s, int c)
 {
-	size_t	i;
+	while (*s && *s != (char)c)
+		s++;
+	if (*s == (char)c)
+		return ((char *)s);
+	return (NULL);
+}
+
+char	*ft_substr(const char *s, unsigned int start, size_t len)
+{
+	size_t	index;
+	size_t	s_len;
+	size_t	substr_len;
+	char	*substr;
+
+	index = 0;
+	s_len = ft_strlen(s);
+	if (start > s_len)
+		substr_len = 0;
+	else if (start + len > s_len)
+		substr_len = s_len - start;
+	else
+		substr_len = len;
+	substr = (char *)malloc(substr_len + 1);
+	if (substr)
+	{
+		while (index < len && start + index < s_len)
+		{
+			substr[index] = s[start + index];
+			index++;
+		}
+		substr[index] = '\0';
+	}
+	return (substr);
+}
+
+char	*ft_strjoin(const char *s1, const char *s2)
+{
+	size_t	index;
 	size_t	s1_size;
 	size_t	s2_size;
 	char	*joined_str;
 
-	i = 0;
+	index = 0;
 	s1_size = ft_strlen(s1);
 	s2_size = ft_strlen(s2);
 	joined_str = (char *)malloc(s1_size + s2_size + 1);
 	if (joined_str)
 	{
-		while (i < s1_size)
+		while (index < s1_size)
 		{
-			joined_str[i] = s1[i];
-			i++;
+			joined_str[index] = s1[index];
+			index++;
 		}
-		while (i - s1_size < s2_size)
+		while (index - s1_size < s2_size)
 		{
-			*eol = s2[i - s1_size] == '\n';
-			joined_str[i] = s2[i - s1_size];
-			i++;
+			joined_str[index] = s2[index - s1_size];
+			index++;
 		}
-		joined_str[i] = '\0';
+		joined_str[index] = '\0';
 	}
 	return (joined_str);
 }
