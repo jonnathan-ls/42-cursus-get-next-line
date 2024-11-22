@@ -6,15 +6,15 @@
 /*   By: jlacerda <jlacerda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:37:28 by jlacerda          #+#    #+#             */
-/*   Updated: 2024/11/16 22:11:30 by jlacerda         ###   ########.fr       */
+/*   Updated: 2024/11/21 22:58:49 by jlacerda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-size_t ft_strlen(const char *s)
+size_t	ft_strlen(const char *s)
 {
-	int len;
+	int	len;
 
 	len = 0;
 	while (s[len])
