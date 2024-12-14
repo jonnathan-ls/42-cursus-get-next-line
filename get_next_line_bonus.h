@@ -6,7 +6,7 @@
 /*   By: jlacerda <jlacerda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:37:40 by jlacerda          #+#    #+#             */
-/*   Updated: 2024/11/21 23:04:02 by jlacerda         ###   ########.fr       */
+/*   Updated: 2024/12/14 18:03:20 by jlacerda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@
 # include <stdlib.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 42
+#  define BUFFER_SIZE 1024
 # endif
 
 # ifndef MAX_FD
-#  define MAX_FD 42
+#  define MAX_FD 1024
 # endif
 
 # define NEW_LINE '\n'
