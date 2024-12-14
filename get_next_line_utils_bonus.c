@@ -6,11 +6,11 @@
 /*   By: jlacerda <jlacerda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 17:37:28 by jlacerda          #+#    #+#             */
-/*   Updated: 2024/11/21 23:03:12 by jlacerda         ###   ########.fr       */
+/*   Updated: 2024/12/14 18:01:27 by jlacerda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 size_t	ft_strlen(const char *s)
 {
