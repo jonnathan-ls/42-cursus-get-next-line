@@ -7,6 +7,13 @@
 int main(void)
 {
 	int fd = open("./content", 'r');
-	printf("Valor: %s", get_next_line(fd));
+	while (true)
+	{
+		char *line = get_next_line(fd);
+		if (!line)
+			break;
+		printf("%s", line);
+		free(line);
+	}
 	close(fd);
 }

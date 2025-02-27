@@ -5,7 +5,7 @@
 #include <stdlib.h>
 
 #ifndef BUFFER_SIZE
-#define BUFFER_SIZE 42
+#define BUFFER_SIZE 11
 #endif
 
 # define NEW_LINE '\n'
