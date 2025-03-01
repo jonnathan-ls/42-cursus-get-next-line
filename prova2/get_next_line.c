@@ -5,6 +5,8 @@ size_t	ft_strlen(const char *s)
 {
 	int	len;
 
+	if (!s)
+		return 0;
 	len = 0;
 	while (s[len])
 		len++;
@@ -17,6 +19,8 @@ char	*ft_strdup(const char *src)
 	char	*str_cpy;
 	int		index;
 
+	if (!src)
+		return (NULL);
 	src_size = ft_strlen(src);
 	str_cpy = (char *)malloc(src_size + 1);
 	index = 0;
@@ -31,6 +35,8 @@ char	*ft_strdup(const char *src)
 
 char	*ft_strchr(const char *s, int c)
 {
+	if (!s)
+		return NULL;
 	while (*s && *s != (char)c)
 		s++;
 	if (*s == (char)c)
@@ -45,6 +51,8 @@ char	*ft_substr(const char *s, unsigned int start, size_t len)
 	size_t	substr_len;
 	char	*substr;
 
+	if (!s)
+		return NULL;
 	index = 0;
 	s_len = ft_strlen(s);
 	if (start > s_len)
@@ -95,39 +103,72 @@ char	*ft_strjoin(const char *s1, const char *s2)
 }
 
 
-void read_content(char *buffer, int fd, t_gnl *gnl)
+void read_content(char **buffer, int fd, t_gnl *gnl)
 {
 	int bytes_read;
 
-	buffer = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1);
-	bytes_read = read(fd, buffer, BUFFER_SIZE);
+	*buffer = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1);
+	bytes_read = read(fd, *buffer, BUFFER_SIZE);
 	if (bytes_read == 0)
 		gnl->is_eof = true;
 	gnl->size_content += bytes_read;
+	(*buffer)[bytes_read] = '\0';
 }
 
 char *get_next_line(int fd)
 {
 	static t_gnl gnl;
 	char *buffer;
+	char *temp;
 	char *line;
 
-	if (gnl.is_eof && gnl.size_content == 0)
-		return NULL;
-	if (!gnl.is_eof)
+	if (!gnl.content)
+		gnl.content = ft_strdup("");
+	if (gnl.is_eof && gnl.size_content <= 0)
 	{
-		read_content(buffer, fd, &gnl);
+		if (gnl.content)
+			free(gnl.content);
+		return NULL;
+	}
+	if (!gnl.is_eof && !ft_strchr(gnl.content, '\n'))
+	{
 		while (true)
 		{
-			if (!gnl.content)
-				gnl.content = ft_strdup("");
+			read_content(&buffer, fd, &gnl);
+			temp = gnl.content;
 			gnl.content = ft_strjoin(gnl.content, buffer);
-
+			free(temp);
+			free(buffer);
+			if (gnl.is_eof || ft_strchr(gnl.content, '\n'))
+				break;
 		}
-		
 	}
-	line 
-
+	int line_size = 0;
+	while (gnl.content[line_size] && gnl.content[line_size] != '\n')
+		line_size++;
+	line = (char *)malloc(sizeof(char) * line_size + 2);
+	if (!line)
+	{
+		free(gnl.content);
+		return NULL;
+	}
+	int i = 0;
+	while (i < line_size)
+	{
+		line[i] = gnl.content[i];
+		i++;
+	}
+	if (gnl.content[i] == '\n')
+	{
+		line[i] = '\n';
+		i++;
+	}
+	gnl.size_content -= i;
+	line[i] = '\0';
+	temp = gnl.content;
+	gnl.content = ft_strdup(gnl.content + i);
+	free(temp);
+	return (line);
 }
 // REMOVER DAQUI PRA BAIXO
 
@@ -142,6 +183,7 @@ int main(void)
 		if (!line)
 			break;
 		printf("%s", line);
+		free(line);
 	}
 	close(fd);
 	return (0);

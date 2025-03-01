@@ -14,7 +14,7 @@ typedef struct  s_gnl
 {
 	bool is_eof;
 	char *content;
-	unsigned long size_content;
+	long size_content;
 } t_gnl;
 
 #endif
